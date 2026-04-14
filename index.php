@@ -22,51 +22,57 @@ $indexName = $_ENV['INDEX_NAME'];
 </head>
 <body>
 
-    <nav class="navbar sticky-top glass-navbar py-3 mb-4">
+    <nav class="navbar sticky-top glass-navbar py-3 mb-5">
         <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand fw-bold text-dark mb-0 fs-4" href="#">🎬 Movie Finder</a>
+            <a class="navbar-brand fw-bold mb-0 fs-4 text-white" href="#">🎬 <span class="brand-accent">Movie</span> Finder</a>
             <div id="searchbox" class="flex-grow-1 ms-4" style="max-width: 600px;"></div>
         </div>
     </nav>
 
     <div class="container mb-5">
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="glass-card p-3">
-                    <h5 class="fw-bold mb-3 pb-2 border-bottom border-light text-dark">Filter by Genre</h5>
+        <div class="row g-5">
+            <div class="col-lg-3 col-md-4">
+                <div class="glass-card p-4 sticky-top" style="top: 100px;">
+                    <h6 class="fw-bold mb-4 pb-3 border-bottom border-secondary text-white text-uppercase tracking-wider">Filter by Genre</h6>
                     <div id="genre-list"></div>
                 </div>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-lg-9 col-md-8">
                 <div id="hits"></div>
-                <div id="pagination" class="mt-5 d-flex justify-content-center"></div>
+                <div id="pagination" class="mt-5 pt-4 d-flex justify-content-center"></div>
             </div>
         </div>
     </div>
 
     <div class="modal fade" id="movieModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content glass-card border-0 text-dark">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content glass-card border-0 text-white overflow-hidden">
                 <div class="modal-body p-0">
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-4 z-3" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="row g-0">
-                        <div class="col-md-5 d-none d-md-block">
-                            <img id="modalPoster" src="" class="img-fluid rounded-start h-100 object-fit-cover" alt="Movie Poster">
+                        <div class="col-md-4 d-none d-md-block">
+                            <img id="modalPoster" src="" class="img-fluid h-100 w-100 object-fit-cover" alt="Movie Poster">
                         </div>
-                        <div class="col-md-7 p-4 p-md-5 d-flex flex-column justify-content-center">
-                            <h2 id="modalTitle" class="fw-bold mb-1">Movie Title</h2>
-                            <div class="d-flex align-items-center gap-3 mb-4 small text-muted">
-                                <span id="modalDate">2023</span>
-                                <span class="badge glass-badge" id="modalGenre">Action</span>
-                                <span id="modalRating">⭐ 8.5 / 10</span>
-                            </div>
-                            <h6 class="fw-bold text-uppercase text-secondary mb-2">Overview</h6>
-                            <p id="modalOverview" class="text-dark opacity-75 lh-lg mb-4">Movie description goes here...</p>
+                        <div class="col-md-8 p-5 d-flex flex-column justify-content-center position-relative">
+                            <div class="position-absolute top-0 end-0 p-5 opacity-25 fw-bold" style="font-size: 8rem; color: #333; z-index: 0; pointer-events: none;" id="modalYearWatermark"></div>
                             
-                            <button class="btn btn-primary glass-btn-primary py-2 px-4 rounded-pill fw-bold w-100" data-bs-dismiss="modal">
-                                Close Details
-                            </button>
+                            <div class="position-relative z-1">
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <span class="badge glass-badge fs-6 px-3 py-2" id="modalRating">⭐ 8.5</span>
+                                    <span class="text-white opacity-50" id="modalDate">2023</span>
+                                </div>
+                                <h1 id="modalTitle" class="fw-bold mb-3 display-5">Movie Title</h1>
+                                <div class="mb-4">
+                                    <span class="text-uppercase tracking-wider text-white opacity-75 small fw-semibold" id="modalGenre">Action, Thriller</span>
+                                </div>
+                                <h6 class="fw-bold text-uppercase brand-accent mb-3">Synopsis</h6>
+                                <p id="modalOverview" class="text-white opacity-75 lh-lg mb-5 fs-6">Movie description goes here...</p>
+                                
+                                <button class="btn glass-btn-primary py-3 px-5 rounded-pill fw-bold text-uppercase tracking-wider" data-bs-dismiss="modal">
+                                    Close Details
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,3 @@
-// 1. Initialize the Algolia Search Client using the global config object
 const searchClient = algoliasearch(
     window.movieConfig.appId, 
     window.movieConfig.searchKey
@@ -10,11 +9,10 @@ const search = instantsearch({
     insights: true,
 });
 
-// 2. Add Widgets
 search.addWidgets([
     instantsearch.widgets.searchBox({
         container: '#searchbox',
-        placeholder: 'Search for movies, genres, or keywords...',
+        placeholder: 'Search movies, genres...',
         showSubmit: false,
         showReset: true,
         cssClasses: {
@@ -22,12 +20,11 @@ search.addWidgets([
         }
     }),
 
-
     instantsearch.widgets.hits({
         container: '#hits',
         templates: {
             item: `
-                <div class="glass-card movie-card h-100 d-flex flex-column movie-card-clickable position-relative">
+                <div class="glass-card movie-card h-100 d-flex flex-column movie-card-clickable position-relative overflow-hidden">
                     
                     <div class="d-none raw-title">{{title}}</div>
                     <div class="d-none raw-overview">{{overview}}</div>
@@ -36,23 +33,26 @@ search.addWidgets([
                     <div class="d-none raw-rating">{{vote_average}}</div>
                     <div class="d-none raw-date">{{release_date}}</div>
 
-                    <img src="{{poster_url}}" class="movie-poster" alt="{{title}}" onerror="this.src='https://via.placeholder.com/300x450/e9ecef/6c757d?text=No+Poster'">
-                    
-                    <div class="play-overlay d-flex justify-content-center align-items-center">
-                        <div class="play-icon">▶</div>
+                    <div class="position-relative">
+                        <img src="{{poster_url}}" class="movie-poster" alt="{{title}}" onerror="this.src='https://via.placeholder.com/300x450/0a0a0c/f5c518?text=No+Poster'">
+                        
+                        <div class="position-absolute top-0 end-0 m-3 glass-badge px-3 py-1 rounded-pill small">
+                            ⭐ {{vote_average}}
+                        </div>
+
+                        <div class="play-overlay d-flex justify-content-center align-items-center">
+                            <div class="play-icon">▶</div>
+                        </div>
                     </div>
 
-                    <div class="card-body p-3 d-flex flex-column flex-grow-1">
-                        <h5 class="fw-bold text-dark mb-2">
+                    <div class="card-body p-4 d-flex flex-column flex-grow-1">
+                        <h5 class="fw-bold text-black mb-1 text-truncate" title="{{title}}">
                             {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
                         </h5>
-                        <p class="small overview-text flex-grow-1">{{overview}}</p>
-                        <div class="mt-auto pt-3 border-top border-light">
-                            <div class="d-flex justify-content-between align-items-center small text-dark">
-                                <span class="badge glass-badge">{{genre}}</span>
-                                <span class="fw-semibold">⭐ {{vote_average}}</span>
-                            </div>
-                        </div>
+                        <p class="text-black opacity-50 small mb-3 text-uppercase tracking-wider" style="font-size: 0.75rem;">
+                            {{release_date}} &bull; {{genre}}
+                        </p>
+                        <p class="small overview-text flex-grow-1 text-black opacity-75 m-0">{{overview}}</p>
                     </div>
                 </div>
             `,
@@ -65,13 +65,12 @@ search.addWidgets([
         searchable: true,
         searchablePlaceholder: 'Find a genre...',
         cssClasses: {
-            label: 'text-dark d-flex justify-content-between align-items-center mb-2 cursor-pointer',
-            checkbox: 'form-check-input me-2 bg-transparent border-dark opacity-50',
+            label: 'text-white d-flex justify-content-between align-items-center mb-3 cursor-pointer opacity-75 hover-opacity-100 transition-all',
+            checkbox: 'form-check-input me-2 bg-transparent border-secondary',
             count: 'badge glass-badge rounded-pill',
-            searchableInput: 'glass-input form-control form-control-sm text-dark mb-3'
+            searchableInput: 'glass-input form-control form-control-sm text-white mb-4'
         }
     }),
-
 
     instantsearch.widgets.pagination({
         container: '#pagination',
@@ -85,14 +84,11 @@ search.addWidgets([
 
 search.start();
 
-// 3. Modal Interaction Logic (Event Delegation)
-// We attach the click listener to the #hits container because the movie cards are rendered dynamically
+// Modal Logic
 document.getElementById('hits').addEventListener('click', function(e) {
-    // Find the closest movie card that was clicked
     const card = e.target.closest('.movie-card-clickable');
     
     if (card) {
-        // Extract data from the hidden fields inside the clicked card
         const title = card.querySelector('.raw-title').innerText;
         const overview = card.querySelector('.raw-overview').innerText;
         let poster = card.querySelector('.raw-poster').innerText;
@@ -100,22 +96,22 @@ document.getElementById('hits').addEventListener('click', function(e) {
         const rating = card.querySelector('.raw-rating').innerText;
         const date = card.querySelector('.raw-date').innerText;
 
-        // Handle broken image links fallback
+        // Extract just the year for the background watermark
+        const year = date ? date.split('-')[0] : '';
+
         if (!poster || poster === '') {
-            poster = 'https://via.placeholder.com/600x900/1a1a2e/ffffff?text=No+Poster';
+            poster = 'https://via.placeholder.com/600x900/0a0a0c/f5c518?text=No+Poster';
         }
 
-        // Inject data into the Modal DOM
         document.getElementById('modalTitle').innerText = title;
         document.getElementById('modalOverview').innerText = overview;
         document.getElementById('modalPoster').src = poster;
         document.getElementById('modalGenre').innerText = genre;
-        document.getElementById('modalRating').innerText = `⭐ ${rating} / 10`;
+        document.getElementById('modalRating').innerText = `⭐ ${rating}`;
         document.getElementById('modalDate').innerText = date;
+        document.getElementById('modalYearWatermark').innerText = year;
 
-        // Initialize and show the Bootstrap Modal
         const movieModal = new bootstrap.Modal(document.getElementById('movieModal'));
         movieModal.show();
     }
 });
-
