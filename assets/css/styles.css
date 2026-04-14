@@ -1,0 +1,199 @@
+/* Core Light Theme with Soft Mesh Gradient */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-attachment: fixed;
+    color: #212529;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* Light Glassmorphism Utilities */
+.glass-navbar {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.glass-badge {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+/* Inputs and Forms */
+.glass-input, .ais-SearchBox-input, .ais-RefinementList-searchBox input {
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    color: #212529 !important;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.glass-input::placeholder, .ais-SearchBox-input::placeholder {
+    color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.glass-input:focus, .ais-SearchBox-input:focus {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15) !important;
+}
+
+/* Hits Grid System */
+.ais-Hits-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    padding: 0;
+    list-style: none;
+}
+
+.movie-poster {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.overview-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #495057;
+}
+
+/* Algolia Specific Overrides */
+.ais-Highlight-highlighted {
+    background-color: rgba(13, 110, 253, 0.2);
+    color: #0d6efd;
+    padding: 0 2px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.ais-RefinementList-count {
+    background: rgba(255, 255, 255, 0.8);
+    color: #6c757d;
+    padding: 0.2em 0.6em;
+    border-radius: 12px;
+    font-size: 0.8em;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.ais-RefinementList-item--selected .ais-RefinementList-label {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+/* Pagination Glass Buttons */
+.custom-pagination .page-link {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: #0d6efd;
+    margin: 0 4px;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    font-weight: 500;
+}
+
+.custom-pagination .page-link:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: #0d6efd;
+    color: #0b5ed7;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    background: transparent;
+    color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* --- Streaming App Specific Styles --- */
+.movie-card-clickable {
+    cursor: pointer;
+    position: relative;
+}
+
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 360px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.play-icon {
+    font-size: 3rem;
+    color: #0d6efd;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.movie-card-clickable:hover .play-overlay {
+    opacity: 1;
+}
+
+.movie-card-clickable:hover .play-icon {
+    transform: scale(1);
+}
+
+.modal-content.glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+.glass-btn-primary {
+    background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+    border: none;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    color: white;
+}
+
+.glass-btn-primary:hover {
+    opacity: 0.9;
+    color: white;
+    transform: scale(1.02);
+}

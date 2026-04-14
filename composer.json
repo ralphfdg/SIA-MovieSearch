@@ -1,0 +1,6 @@
+{
+    "require": {
+        "algolia/algoliasearch-client-php": "^4.41",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
